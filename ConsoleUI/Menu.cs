@@ -37,7 +37,7 @@ internal class Menu
                 case "3":
                     break;
                 case "4":
-                    //Rooms.ShowMenu();
+                    Rooms.ShowMenu();
                     break;
                 case "5":
                     Console.WriteLine();

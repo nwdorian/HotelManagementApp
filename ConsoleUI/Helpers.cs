@@ -16,7 +16,17 @@ internal class Helpers
         Console.WriteLine("GUEST LIST");
         foreach (Guest g in DbMethods.GetGuests())
         {
-            Console.WriteLine($"{g.Id}. Name: {g.FirstName} {g.LastName}, Phone: {g.Phone}, Email: {g.Email}, Adress: {g.Adress}, {g.City.Name} {g.CityId}, {g.Country.Name}");
+            Console.WriteLine($"ID: {g.Id}. Name: {g.FirstName} {g.LastName}, Phone: {g.Phone}, Email: {g.Email}, Adress: {g.Adress}, {g.City.Name} {g.CityId}, {g.Country.Name}");
+        }
+    }
+
+    internal static void PrintRooms(List<Room> roomList)
+    {
+        Console.WriteLine();
+        Console.WriteLine("ROOM LIST");
+        foreach (Room r in DbMethods.GetRooms())
+        {
+            Console.WriteLine($"ID: {r.Id}, Number: {r.Number}, Floor: {r.Floor}, Bed type: {r.Bed.Name}, Number of beds: {r.NumBeds}");
         }
     }
 

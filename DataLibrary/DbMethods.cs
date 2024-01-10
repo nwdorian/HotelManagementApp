@@ -6,184 +6,317 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLibrary
+namespace DataLibrary;
+
+public class DbMethods
 {
-    public class DbMethods
+    public static List<Guest> GetGuests()
     {
-        public static List<Guest> GetGuests()
+        List<Guest> guests = new List<Guest>();
+        try
         {
-            List<Guest> guests = new List<Guest>();
-            try
+            using (HotelManagementContext context = new HotelManagementContext())
             {
-                using (HotelManagementContext context = new HotelManagementContext())
-                {
-                    guests = context.Guest.Include(x => x.City).Include(x => x.Country).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
-            return guests;
-        }
-
-        public static void AddGuest(Guest newGuest)
-        {
-            try
-            {
-                using (HotelManagementContext context = new HotelManagementContext())
-                {
-                    context.Guest.Add(newGuest);
-                    context.SaveChanges();
-                }
-                Console.WriteLine("New guest was succesfully added!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
+                guests = context.Guest.Include(x => x.City).Include(x => x.Country).ToList();
             }
         }
-
-        public static Guest GetGuest(int id)
+        catch (Exception e)
         {
-            try
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return guests;
+    }
+
+    public static void AddGuest(Guest newGuest)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
             {
-                using (HotelManagementContext context = new HotelManagementContext())
+                context.Guest.Add(newGuest);
+                context.SaveChanges();
+            }
+            Console.WriteLine("New guest was succesfully added!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static Guest GetGuest(int id)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Guest guest = context.Guest.Include(x => x.City).Include(x => x.Country).FirstOrDefault(x => x.Id == id);
+                if (guest != default)
                 {
-                    Guest guest = context.Guest.Include(x => x.City).Include(x => x.Country).FirstOrDefault(x => x.Id == id);
-                    if (guest != default)
-                    {
-                        return guest;
-                    }
+                    return guest;
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
-            return null;
         }
-
-        public static void EditGuest(Guest guest)
+        catch (Exception e)
         {
-            try
-            {
-                using (HotelManagementContext context = new HotelManagementContext())
-                {
-                    Guest editGuest = context.Guest.FirstOrDefault(x => x.Id == guest.Id);
-                    if (editGuest != default)
-                    {
-                        editGuest.FirstName = guest.FirstName;
-                        editGuest.LastName = guest.LastName;
-                        editGuest.Phone = guest.Phone;
-                        editGuest.Email = guest.Email;
-                        editGuest.Adress = guest.Adress;
-                        editGuest.CityId = guest.CityId;
-                        editGuest.CountryId = guest.CountryId;
-                        context.SaveChanges();
-                    }
-                }
-                Console.WriteLine("Guest was successfully updated!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
+            Console.WriteLine("Error! Details: " + e.Message);
         }
+        return null;
+    }
 
-        public static void RemoveGuest(int id)
+    public static void EditGuest(Guest guest)
+    {
+        try
         {
-            try
+            using (HotelManagementContext context = new HotelManagementContext())
             {
-                using (HotelManagementContext context = new HotelManagementContext())
+                Guest editGuest = context.Guest.FirstOrDefault(x => x.Id == guest.Id);
+                if (editGuest != default)
                 {
-                    Guest removeGuest = context.Guest.FirstOrDefault(x => x.Id == id);
-                    if (removeGuest != default)
-                    {
-                        context.Remove(removeGuest);
-                        context.SaveChanges();
-                    }
-                }
-                Console.WriteLine("Guest was successfully deleted!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
-        }
-
-        public static void AddCity(City newCity)
-        {
-            try
-            {
-                using (HotelManagementContext context = new HotelManagementContext())
-                {
-                    context.City.Add(newCity);
+                    editGuest.FirstName = guest.FirstName;
+                    editGuest.LastName = guest.LastName;
+                    editGuest.Phone = guest.Phone;
+                    editGuest.Email = guest.Email;
+                    editGuest.Adress = guest.Adress;
+                    editGuest.CityId = guest.CityId;
+                    editGuest.CountryId = guest.CountryId;
                     context.SaveChanges();
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
+            Console.WriteLine("Guest was successfully updated!");
         }
-
-        public static City GetCityByName(string cityName)
+        catch (Exception e)
         {
-            try
-            {
-                using (HotelManagementContext context = new HotelManagementContext())
-                {
-                    City city = context.City.FirstOrDefault(x => x.Name == cityName);
-                    if (city != default)
-                    {
-                        return city;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
-            return null;
+            Console.WriteLine("Error! Details: " + e.Message);
         }
+    }
 
-        public static void AddCountry(Country newCountry)
+    public static void RemoveGuest(int id)
+    {
+        try
         {
-            try
+            using (HotelManagementContext context = new HotelManagementContext())
             {
-                using (HotelManagementContext context = new HotelManagementContext())
+                Guest removeGuest = context.Guest.FirstOrDefault(x => x.Id == id);
+                if (removeGuest != default)
                 {
-                    context.Country.Add(newCountry);
+                    context.Remove(removeGuest);
                     context.SaveChanges();
                 }
             }
-            catch (Exception e)
+            Console.WriteLine("Guest was successfully deleted!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static void AddCity(City newCity)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
             {
-                Console.WriteLine("Error! Details: " + e.Message);
+                context.City.Add(newCity);
+                context.SaveChanges();
             }
         }
-
-        public static Country GetCountryByName(string countryName)
+        catch (Exception e)
         {
-            try
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static City GetCityByName(string cityName)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
             {
-                using (HotelManagementContext context = new HotelManagementContext())
+                City city = context.City.FirstOrDefault(x => x.Name == cityName);
+                if (city != default)
                 {
-                    Country country = context.Country.FirstOrDefault(x => x.Name == countryName);
-                    if (country != default)
-                    {
-                        return country;
-                    }
+                    return city;
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error! Details: " + e.Message);
-            }
-            return null;
         }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return null;
+    }
 
-        
+    public static void AddCountry(Country newCountry)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                context.Country.Add(newCountry);
+                context.SaveChanges();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static Country GetCountryByName(string countryName)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Country country = context.Country.FirstOrDefault(x => x.Name == countryName);
+                if (country != default)
+                {
+                    return country;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return null;
+    }
+
+    public static List<Room> GetRooms()
+    {
+        List<Room> guests = new List<Room>();
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                guests = context.Room.Include(x => x.Bed).ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return guests;
+    }
+
+    public static void AddRoom(Room newRoom)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                context.Room.Add(newRoom);
+                context.SaveChanges();
+            }
+            Console.WriteLine("New room was succesfully added!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static Room GetRoom(int id)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Room room = context.Room.Include(x => x.Bed).FirstOrDefault(x => x.Id == id);
+                if (room != default)
+                {
+                    return room;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return null;
+    }
+
+    public static void EditRoom(Room room)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Room editRoom = context.Room.FirstOrDefault(x => x.Id == room.Id);
+                if (editRoom != default)
+                {
+                    editRoom.Number = room.Number;
+                    editRoom.Floor = room.Floor;
+                    editRoom.NumBeds = room.NumBeds;
+                    editRoom.BedId = room.BedId;
+                    context.SaveChanges();
+                }
+            }
+            Console.WriteLine("Room was successfully updated!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static void RemoveRoom(int id)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Room removeRoom = context.Room.FirstOrDefault(x => x.Id == id);
+                if (removeRoom != default)
+                {
+                    context.Remove(removeRoom);
+                    context.SaveChanges();
+                }
+            }
+            Console.WriteLine("Room was successfully deleted!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static Bed GetBedByName(string bedName)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Bed bed = context.Bed.FirstOrDefault(x => x.Name == bedName);
+                if (bed != default)
+                {
+                    return bed;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return null;
+    }
+
+    public static void AddBed(Bed newBed)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                context.Bed.Add(newBed);
+                context.SaveChanges();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
     }
 }
+
