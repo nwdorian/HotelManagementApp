@@ -1,0 +1,3 @@
+﻿using ConsoleUI;
+
+Menu.ShowMenu();
