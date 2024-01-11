@@ -97,7 +97,7 @@ public class DbMethods
         {
             using (HotelManagementContext context = new HotelManagementContext())
             {
-                Guest removeGuest = context.Guest.FirstOrDefault(x => x.Id == id);
+                Guest removeGuest = context.Guest.Include(x => x.Reservation).ThenInclude(x => x.RoomReservation).FirstOrDefault(x => x.Id == id);
                 if (removeGuest != default)
                 {
                     context.Remove(removeGuest);
@@ -186,19 +186,19 @@ public class DbMethods
 
     public static List<Room> GetRooms()
     {
-        List<Room> guests = new List<Room>();
+        List<Room> rooms = new List<Room>();
         try
         {
             using (HotelManagementContext context = new HotelManagementContext())
             {
-                guests = context.Room.Include(x => x.Bed).ToList();
+                rooms = context.Room.Include(x => x.Bed).ToList();
             }
         }
         catch (Exception e)
         {
             Console.WriteLine("Error! Details: " + e.Message);
         }
-        return guests;
+        return rooms;
     }
 
     public static void AddRoom(Room newRoom)
@@ -386,7 +386,7 @@ public class DbMethods
                     context.SaveChanges();
                 }
             }
-            Console.WriteLine("Room was successfully deleted!");
+            Console.WriteLine("Reservation was successfully deleted!");
         }
         catch (Exception e)
         {

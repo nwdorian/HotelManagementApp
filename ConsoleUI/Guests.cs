@@ -76,7 +76,7 @@ internal class Guests
                             {
                                 city = new City();
                                 city.Name = addCity;
-                                city.Id = Helpers.PromptUserForNumber("Postal code:");
+                                city.Id = Helpers.PromptUserForNumber("Postal code: ");
                                 DbMethods.AddCity(city);
 
                             }
@@ -184,6 +184,10 @@ internal class Guests
                     {
                         Console.WriteLine("Error! Details: " + e.Message);
                     }
+                    Console.WriteLine();
+                    Console.Write("Press any key to continue...");
+                    Console.ReadKey();
+                    ShowMenu();
                     break;
                 case "5":
                     Menu.ShowMenu();

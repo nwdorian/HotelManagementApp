@@ -76,6 +76,10 @@ internal class Reservations
                     } while (addRoom);
                     reservation.RoomReservation.Add(roomReservation);
                     DbMethods.AddReservation(reservation);
+                    Console.WriteLine();
+                    Console.Write("Press any key to continue...");
+                    Console.ReadKey();
+                    ShowMenu();
                     break;
                 case "3":
                     Console.WriteLine();
@@ -89,6 +93,10 @@ internal class Reservations
                     {
                         Console.WriteLine("Error! Details: " + e.Message);
                     }
+                    Console.WriteLine();
+                    Console.Write("Press any key to continue...");
+                    Console.ReadKey();
+                    ShowMenu();
                     break;
                 case "4":
                     Menu.ShowMenu();
