@@ -17,11 +17,10 @@ internal class Menu
             repeatMenu = false;
             Console.Clear();
             Console.WriteLine("****** ROOM BOOKING *******");
-            Console.WriteLine("* 1. Payments             *");
+            Console.WriteLine("* 1. Reservations         *");
             Console.WriteLine("* 2. Guests               *");
-            Console.WriteLine("* 3. Reservations         *");
-            Console.WriteLine("* 4. Rooms                *");
-            Console.WriteLine("* 5. Exit                 *");
+            Console.WriteLine("* 3. Rooms                *");
+            Console.WriteLine("* 4. Exit                 *");
             Console.WriteLine("***************************");
             Console.WriteLine();
             Console.Write("Choose an option: ");
@@ -30,16 +29,15 @@ internal class Menu
             switch (menuChoice.Trim())
             {
                 case "1":
+                    Reservations.ShowMenu();
                     break;
                 case "2":
                     Guests.ShowMenu();
                     break;
                 case "3":
-                    break;
-                case "4":
                     Rooms.ShowMenu();
                     break;
-                case "5":
+                case "4":
                     Console.WriteLine();
                     Console.Write("Are you sure you want to exit? (y/n): ");
                     string userInput = Console.ReadLine();

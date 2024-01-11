@@ -126,7 +126,7 @@ public partial class HotelManagementContext : DbContext
 
             entity.HasOne(d => d.Guest).WithMany(p => p.Reservation)
                 .HasForeignKey(d => d.GuestId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__reservati__guest__3F466844");
         });
 
@@ -160,12 +160,12 @@ public partial class HotelManagementContext : DbContext
 
             entity.HasOne(d => d.Reservation).WithMany(p => p.RoomReservation)
                 .HasForeignKey(d => d.ReservationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__roomReser__reser__46E78A0C");
 
             entity.HasOne(d => d.Room).WithMany(p => p.RoomReservation)
                 .HasForeignKey(d => d.RoomId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__roomReser__roomI__47DBAE45");
         });
 

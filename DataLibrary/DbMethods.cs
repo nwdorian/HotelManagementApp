@@ -318,5 +318,80 @@ public class DbMethods
             Console.WriteLine("Error! Details: " + e.Message);
         }
     }
+
+    public static List<RoomReservation> GetReservations()
+    {
+        List<RoomReservation> reservations = new List<RoomReservation>();
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                reservations = context.RoomReservation.Include(x => x.Reservation).ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return reservations;
+    }
+
+    public static void AddReservation(Reservation newReservation)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                context.Reservation.Add(newReservation);
+                context.SaveChanges();
+            }
+            Console.WriteLine("New reservation was succesfully added!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
+
+    public static Reservation GetReservation(int id)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Reservation reservation = context.Reservation.FirstOrDefault(x => x.Id == id);
+                if (reservation != default)
+                {
+                    return reservation;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+        return null;
+    }
+
+    public static void RemoveReservation(int id)
+    {
+        try
+        {
+            using (HotelManagementContext context = new HotelManagementContext())
+            {
+                Reservation removeReservation = context.Reservation.Include(x => x.RoomReservation).FirstOrDefault(x => x.Id == id);
+                if (removeReservation != default)
+                {
+                    context.Remove(removeReservation);
+                    context.SaveChanges();
+                }
+            }
+            Console.WriteLine("Room was successfully deleted!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error! Details: " + e.Message);
+        }
+    }
 }
 

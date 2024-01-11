@@ -30,6 +30,16 @@ internal class Helpers
         }
     }
 
+    internal static void PrintReservations(List<RoomReservation> reservationList)
+    {
+        Console.WriteLine();
+        Console.WriteLine("RESERVATION LIST");
+        foreach (RoomReservation r in DbMethods.GetReservations())
+        {
+            Console.WriteLine($"ID: {r.Reservation.Id}, Guest ID: {r.Reservation.GuestId}, Check in: {r.Reservation.CheckIn}, Check out: {r.Reservation.CheckOut}, Room ID: {r.RoomId}");
+        }
+    }
+
     internal static string PromptUserForString(string prompt)
     {
         Console.Write(prompt);
@@ -46,6 +56,17 @@ internal class Helpers
             return readValue;
         }
         return 0;
+    }
+
+    internal static DateTime PromptUserForDateTime(string prompt)
+    {
+        Console.Write(prompt);
+        DateTime readValue;
+        if (DateTime.TryParse(Console.ReadLine(), out readValue))
+        {
+            return readValue;
+        }
+        return DateTime.MinValue;
     }
 }
 
