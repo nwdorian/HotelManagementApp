@@ -16,12 +16,12 @@ internal class Menu
         {
             repeatMenu = false;
             Console.Clear();
-            Console.WriteLine("****** ROOM BOOKING *******");
-            Console.WriteLine("* 1. Reservations         *");
-            Console.WriteLine("* 2. Guests               *");
-            Console.WriteLine("* 3. Rooms                *");
-            Console.WriteLine("* 4. Exit                 *");
-            Console.WriteLine("***************************");
+            Console.WriteLine("***** HOTEL MANAGEMENT *****");
+            Console.WriteLine("* 1. Reservations          *");
+            Console.WriteLine("* 2. Guests                *");
+            Console.WriteLine("* 3. Rooms                 *");
+            Console.WriteLine("* 4. Exit                  *");
+            Console.WriteLine("****************************");
             Console.WriteLine();
             Console.Write("Choose an option: ");
             string menuChoice = Console.ReadLine();

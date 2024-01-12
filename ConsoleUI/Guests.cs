@@ -107,7 +107,7 @@ internal class Guests
                     break;
                 case "3":
                     Console.WriteLine();
-                    Console.WriteLine("NEW GUEST");
+                    Console.WriteLine("EDIT GUEST");
                     try
                     {
                         Guest editGuest = DbMethods.GetGuest(Helpers.PromptUserForNumber("Enter Guest ID: "));
